@@ -102,7 +102,10 @@ namespace chat
                         if (trouve == false) //Creation de la room
                         {
                             new Room(message.Content[0], this);
-                        }                            
+                            //On envoie la nouvelle liste de room aux clients
+                            Message msg = new Message(new List<string>() { message.Content[0], "add" }, null, 0);
+                            Server.queue.Enqueue(msg);
+                        }
                     }
                     else
                     {

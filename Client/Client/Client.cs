@@ -81,10 +81,18 @@ namespace chat
                         id = serverMessage.Sender;    //Initie l'id du client
                         f.setRoomList(serverMessage.Content);   //On liste les rooms disponibles
                     }
-                    else if (serverMessage.Sender == id)
+                    else if (serverMessage.Sender == 0)
                     {
-                        serverMessage.Content[0] = "[SERVER] " + serverMessage.Content[0];
-                        raiseReceivedEvent();   //Permet d'afficher un message dans la form
+                        if(serverMessage.Content.Count == 1)
+                        {
+                            serverMessage.Content[0] = "[SERVER] " + serverMessage.Content[0];  //Message du server
+                            raiseReceivedEvent();   //Permet d'afficher un message dans la form
+                        }
+                        else if (serverMessage.Content[1].Equals("add"))
+                        {
+                            f.addRoomToList(serverMessage.Content[0]);   //Rajout de la nouvelle room à la liste des rooms
+                        }
+                        //pareil pour delete
                     }
                     else
                     {

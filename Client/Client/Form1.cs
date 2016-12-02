@@ -39,7 +39,7 @@ namespace chat
         {
             if (!texte.Text.Equals(""))
             {
-                string room = listBox1.GetItemText(listBox1.SelectedValue);
+                string room = listBox1.GetItemText(listBox1.SelectedItem);
                 Message message = new Message(new List<string>() { texte.Text },  room, Client.id);   //go to welcome room
                 string text = "[You] " + message.Content[0] + "\r\n";
                 //int id = Room_client.getIndex(room);
@@ -64,7 +64,7 @@ namespace chat
             else
             {
                 string text = m.Content[0] + "\r\n";
-                string room = listBox1.GetItemText(listBox1.SelectedValue);
+                string room = listBox1.GetItemText(listBox1.SelectedItem);
                 
                 if (m.Room == room)
                 {
@@ -95,7 +95,7 @@ namespace chat
         {
             if (previousIndex != listBox1.SelectedIndex)
             {
-                string room = listBox1.GetItemText(listBox1.SelectedValue); //Recupere le nom de la room selectionnée
+                string room = listBox1.GetItemText(listBox1.SelectedItem); //Recupere le nom de la room selectionnée
                 int index = Room_client.getIndex(room);             //Trouve son index
 
                 if (Client.rooms[index].subscribe == false) //envoi du message subscribe pour la room nouvellement selectionnée au serveur
@@ -123,10 +123,24 @@ namespace chat
 
         public void setRoomList(List<string> roomList)
         {
-            listBox1.DataSource = roomList;
             foreach (string r in roomList)
+            {
                 Client.rooms.Add(new Room_client(r));
+                listBox1.Items.Add(r);
+            }
+            // here
+            // Bug to fix here !
+            // here
+            //listBox1.DataSource = roomList;
+            listBox1.SelectedIndex = 0;
         }
 
+
+        public void addRoomToList(string room)
+        {
+            Client.rooms.Add(new Room_client(room));
+            listBox1.Items.Add(room);
+        }
+       
     }
 }

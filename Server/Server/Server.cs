@@ -60,8 +60,15 @@ namespace chat
                     if(queue.Count != 0)
                     {
                         Message m = queue.Dequeue();
-                        sendToRoom(m);
-                    }
+                        if (m.Sender == 0)  //Envoie à tous les clients
+                        {
+                            sendToAll(m);
+                        }
+                        else    //Envoie à un seul client
+                        {
+                            sendToRoom(m);
+                        }
+                    } 
                     Thread.Sleep(100);
                 }
             }
@@ -88,6 +95,21 @@ namespace chat
                 }
             }
             catch(Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+
+        private void sendToAll(Message m)
+        {
+            try
+            {
+                for (int i = 0; i < Session.sessions.Count; i++)
+                {
+                    Session.sessions[i].send(m);
+                }
+            }
+            catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
