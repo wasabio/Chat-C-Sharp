@@ -19,16 +19,9 @@ namespace chat
             chatbox = "";
         }
 
-        public void add(String text)
+        public void save(String text)
         {
-            chatbox = chatbox + text + "\r\n";
-            int lines = chatbox.Split('\n').Length;
-            int linesMax = 145;
-            if (lines > linesMax)
-            {
-                int difference = lines - linesMax;
-                chatbox = RemoveFirstLines(chatbox, difference);
-            }
+            chatbox = text;
         }
 
         public static int getIndex(string name)
@@ -39,12 +32,6 @@ namespace chat
                     if (name == Client.rooms[i].name) return i;
             }
             return -1;
-        }
-
-        private static string RemoveFirstLines(string text, int linesCount)
-        {
-            var lines = Regex.Split(text, "\r\n|\r|\n").Skip(linesCount);
-            return string.Join(Environment.NewLine, lines.ToArray());
         }
     }
 }

@@ -40,7 +40,7 @@ namespace chat
             if (!texte.Text.Equals(""))
             {
                 string room = listBox1.GetItemText(listBox1.SelectedItem);
-                Message message = new Message(new List<string>() { texte.Text },  room, Client.id);   //go to welcome room
+                Message message = new Message(new List<string>() { texte.Text }, room, Client.id);   //go to welcome room
                 string text = "[You] " + message.Content[0] + "\r\n";
                 //int id = Room_client.getIndex(room);
 
@@ -73,8 +73,8 @@ namespace chat
                 else
                 {
                     int id = Room_client.getIndex(m.Room);
-                    Client.rooms[id].add(text);   //Sauvegarde discussion dans la memoire si on ne voit pas la discussion
-                }
+                    Client.rooms[id].chatbox += text;   //Rajout du message dans la memoire si on ne voit pas la discussion : la taille du string augmente, mais lors de 
+                }                                       //l'affichage dans la textbox, la textbox a un algo qui limite la taille
             }
             m = null;
         }
@@ -109,11 +109,10 @@ namespace chat
 
                 texte.Focus();
 
-                lock (discussion)                                   
+                lock (discussion)
                 {
-                    Client.rooms[previousIndex].add(discussion.Text);           //Sauvegarde la discussion dans la mémoire
+                    Client.rooms[previousIndex].save(discussion.Text);           //Sauvegarde la discussion dans la mémoire                     
                     discussion.Clear();
-
                     discussion.AppendText(Client.rooms[index].chatbox);       //Affiche son texte
                     previousIndex = listBox1.SelectedIndex;
                 }
@@ -133,6 +132,11 @@ namespace chat
             // here
             //listBox1.DataSource = roomList;
             listBox1.SelectedIndex = 0;
+            Client.rooms[0].subscribe = true;   //Par defaut, on subscribe a la 1ere room d'accueil
+            if (Client.id == 1)
+            {
+                addRoomToList("Room by client 1");
+            }
         }
 
 
