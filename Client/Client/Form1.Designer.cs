@@ -48,7 +48,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.30835F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 73.69166F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 17F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 162F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 164F));
             this.tableLayoutPanel1.Controls.Add(this.button1, 3, 3);
             this.tableLayoutPanel1.Controls.Add(this.texte, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.discussion, 1, 1);
@@ -77,7 +77,7 @@
             this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(737, 487);
+            this.button1.Location = new System.Drawing.Point(735, 487);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(77, 79);
             this.button1.TabIndex = 4;
@@ -93,7 +93,7 @@
             this.texte.MaxLength = 254;
             this.texte.Multiline = true;
             this.texte.Name = "texte";
-            this.texte.Size = new System.Drawing.Size(523, 79);
+            this.texte.Size = new System.Drawing.Size(521, 79);
             this.texte.TabIndex = 3;
             // 
             // discussion
@@ -108,7 +108,7 @@
             this.discussion.Name = "discussion";
             this.discussion.ReadOnly = true;
             this.discussion.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.discussion.Size = new System.Drawing.Size(523, 424);
+            this.discussion.Size = new System.Drawing.Size(521, 424);
             this.discussion.TabIndex = 5;
             // 
             // listBox1
@@ -165,6 +165,7 @@
             this.button2.Size = new System.Drawing.Size(25, 23);
             this.button2.TabIndex = 1;
             this.button2.UseVisualStyleBackColor = false;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // button3
             // 

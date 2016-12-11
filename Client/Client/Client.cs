@@ -83,12 +83,12 @@ namespace chat
                     }
                     else if (serverMessage.Sender == 0)
                     {
-                        if(serverMessage.Content.Count == 1)
+                        if(serverMessage.Content.Count == 1)    //Content 0 : Message serveur
                         {
                             serverMessage.Content[0] = "[SERVER] " + serverMessage.Content[0];  //Message du server
                             raiseReceivedEvent();   //Permet d'afficher un message dans la form
                         }
-                        else if (serverMessage.Content[1].Equals("add"))
+                        else if (serverMessage.Content[1].Equals("add"))    //Content 0 : nom room - Content 1 : add
                         {
                             f.addRoomToList(serverMessage.Content[0]);   //Rajout de la nouvelle room à la liste des rooms
                         }
@@ -101,7 +101,7 @@ namespace chat
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 MessageBox.Show("Disconnected from server ");
             }

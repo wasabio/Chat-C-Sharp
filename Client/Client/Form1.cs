@@ -17,22 +17,13 @@ namespace chat
         private int previousIndex = 0;
 
         delegate void SetTextCallback(object sender, Message m);
+        delegate void SetTextCallbac(String nom);
 
         public Form1(Client c)
         {
             InitializeComponent();
             AcceptButton = button1;
             this.c = c;
-        }
-
-        private void texte_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void discussion_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void button1_Click_1(object sender, EventArgs e)        //Envoie de message
@@ -42,10 +33,8 @@ namespace chat
                 string room = listBox1.GetItemText(listBox1.SelectedItem);
                 Message message = new Message(new List<string>() { texte.Text }, room, Client.id);   //go to welcome room
                 string text = "[You] " + message.Content[0] + "\r\n";
-                //int id = Room_client.getIndex(room);
 
                 discussion.AppendText(text);  //Affichage dans la textbox
-                //Client.rooms[id].add(text);   //Sauvegarde discussion dans la memoire 
 
                 c.send(message);
                 texte.Clear();
@@ -127,24 +116,36 @@ namespace chat
                 Client.rooms.Add(new Room_client(r));
                 listBox1.Items.Add(r);
             }
-            // here
-            // Bug to fix here !
-            // here
-            //listBox1.DataSource = roomList;
+
             listBox1.SelectedIndex = 0;
             Client.rooms[0].subscribe = true;   //Par defaut, on subscribe a la 1ere room d'accueil
-            if (Client.id == 1)
-            {
-                addRoomToList("Room by client 1");
-            }
         }
 
 
         public void addRoomToList(string room)
         {
-            Client.rooms.Add(new Room_client(room));
-            listBox1.Items.Add(room);
+            if (this.listBox1.InvokeRequired)
+            {
+                SetTextCallbac d = new SetTextCallbac(addRoomToList);  //Thread safe : ajout room à listbox
+                this.Invoke(d, new object[] { room });
+            }
+            else
+            {
+                Client.rooms.Add(new Room_client(room));
+                listBox1.Items.Add(room);
+            }
         }
-       
+
+        private void button2_Click(object sender, EventArgs e)  //Bouton pour rajouter une room
+        {
+            String roomName = textBox1.Text;
+            if(roomName != "")
+            {
+                Message message = new Message(new List<string>() { roomName }, null, Client.id);   //On envoie un message au serveur pour ajouter la room
+
+                c.send(message);
+                textBox1.Clear();
+            }
+        }
     }
 }

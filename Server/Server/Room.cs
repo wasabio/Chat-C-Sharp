@@ -25,7 +25,7 @@ namespace chat
         {
             this.name = name;
             rooms.Add(this);            //Ajout de notre room a la liste de rooms du serveur
-            session.linkToRoom(this);
+                                        //Le linkage est effectué quand le client décide de subscribe à la room
             Console.WriteLine("Room " + name + " created for session " + session.Id);
         }
 

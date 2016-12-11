@@ -93,7 +93,7 @@ namespace chat
                         bool trouve = false;
                         for (int i = 0; i < Room.rooms.Count; i++)   //On cherche si la room existe dans la liste de rooms (via son nom)
                         {
-                            if (Room.rooms[i].name == message.Content[0])
+                            if (Room.rooms[i].name == message.Content[0])   //Si on trouve la room on subscribe la session sur cette room
                             {
                                 linkToRoom(Room.rooms[i]); //fait l'association de listes entre la room et la session
                                 trouve = true;
@@ -103,11 +103,11 @@ namespace chat
                         {
                             new Room(message.Content[0], this);
                             //On envoie la nouvelle liste de room aux clients
-                            Message msg = new Message(new List<string>() { message.Content[0], "add" }, null, 0);
-                            Server.queue.Enqueue(msg);
+                            Message msg = new Message(new List<string>() { message.Content[0], "add" }, null, 0);   //Message d'upload des rooms
+                            Server.queue.Enqueue(msg);                                                              //mis en queue pour broadcast
                         }
                     }
-                    else
+                    else    //Message classique dans une Room
                     {
                         Console.WriteLine("[Client " + id + " says] " + message.Content[0] + "  TO " + message.Room);
                         Server.queue.Enqueue(message);  //Ajout du message entrant a la liste, il sera transmis a la room par un thread serveur
@@ -141,13 +141,13 @@ namespace chat
 
         public void linkToRoom(Room r)
         {
-            r.sessions.Add(this);  //Ajout de la nouvelle session dans la welcome room
-            rooms.Add(r);          //Ajout de la welcome room a la session 
+            r.sessions.Add(this);  //Ajout de la session dans la room
+            rooms.Add(r);          //Ajout de la room dans la session 
         }
 
         private void removeAllRooms()
         {
-            for (int i = 0; i <= this.rooms.Count; i++)
+            for (int i = 0; i < this.rooms.Count; i++)
                 removeRoom(this.rooms[i]);  //Ne pas mettre de foreach
         }
 
@@ -156,6 +156,5 @@ namespace chat
             r.Remove(this);
             this.rooms.Remove(r);   //On appelle la methode de la room qui va enlever cette session de sa liste et verifier si on doit supprimer la room
         }
-
     }
 }
