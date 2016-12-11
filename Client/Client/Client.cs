@@ -13,6 +13,7 @@ namespace chat
     class Client
     {
         int ADELETE = 41;
+
         public static int id = -1;
         public Socket sock;
         Form1 f;
