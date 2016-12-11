@@ -106,6 +106,7 @@ namespace chat
                             Message msg = new Message(new List<string>() { message.Content[0], "add" }, null, 0);   //Message d'upload des rooms
                             Server.queue.Enqueue(msg);                                                              //mis en queue pour broadcast
                         }
+                        //Suppression de la room ici
                     }
                     else    //Message classique dans une Room
                     {

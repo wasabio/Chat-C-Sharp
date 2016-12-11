@@ -25,7 +25,7 @@ namespace chat
         public event ReceivedHandler receivedEvent;
 
         public static List<Room_client> rooms = new List<Room_client>();
-
+        //Hello world
         public Client()
         {
             try
