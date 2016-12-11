@@ -12,7 +12,7 @@ namespace chat
 {
     class Client
     {
-        int ADELETE;
+        int ADELETE = 41;
         public static int id = -1;
         public Socket sock;
         Form1 f;
@@ -25,7 +25,7 @@ namespace chat
         public event ReceivedHandler receivedEvent;
 
         public static List<Room_client> rooms = new List<Room_client>();
-        //Hello world
+        
         public Client()
         {
             try
