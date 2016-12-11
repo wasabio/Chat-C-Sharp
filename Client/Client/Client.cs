@@ -12,7 +12,7 @@ namespace chat
 {
     class Client
     {
-        int ADELETE = 41;
+        int hello;
 
         public static int id = -1;
         public Socket sock;
