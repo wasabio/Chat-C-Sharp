@@ -12,8 +12,6 @@ namespace chat
 {
     class Client
     {
-        int hello;
-
         public static int id = -1;
         public Socket sock;
         Form1 f;
