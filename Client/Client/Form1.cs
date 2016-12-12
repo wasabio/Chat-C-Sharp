@@ -159,7 +159,7 @@ namespace chat
             if(roomName != "")
             {
                 Message message = new Message(new List<string>() { roomName }, null, Client.id);   //On envoie un message au serveur pour ajouter la room
-
+                
                 c.send(message);
                 textBox1.Clear();
             }
