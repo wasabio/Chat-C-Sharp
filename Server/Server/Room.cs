@@ -33,12 +33,15 @@ namespace chat
 
         public void Remove(Session s)
         {
-            Console.WriteLine("Session disconnected from room :  " + name);
+            Console.WriteLine("     Client " + s.Id + " removed from room " + name);
             this.sessions.Remove(s);
             if (this.sessions.Count == 0 && this.name != "Welcome_room")       //Si plus personne n'est dans la room, on la detruit, sauf si c'est la welcome room
             {
                 rooms.Remove(this);
-                Console.WriteLine("Room closed");
+                Console.WriteLine("     Room " + this.name + " is now empty, deleting...");
+                //Notifie les clients que la room n'existe plus.
+                Message msg = new Message(new List<string>() { this.name, "remove" }, null, 0);
+                Server.queue.Enqueue(msg);
             }
         }
     }

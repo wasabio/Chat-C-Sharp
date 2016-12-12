@@ -92,7 +92,10 @@ namespace chat
                         {
                             f.addRoomToList(serverMessage.Content[0]);   //Rajout de la nouvelle room à la liste des rooms
                         }
-                        //pareil pour delete
+                        else if (serverMessage.Content[1].Equals("remove"))    //Content 0 : nom room - Content 1 : remove
+                        {
+                            f.deleteRoomFromList(serverMessage.Content[0]);   //Suppression d'une room vide de la ListBox
+                        }
                     }
                     else
                     {
@@ -103,7 +106,7 @@ namespace chat
             }
             catch (Exception e)
             {
-                MessageBox.Show("Disconnected from server ");
+                MessageBox.Show("Disconnected from server");
             }
             finally
             {

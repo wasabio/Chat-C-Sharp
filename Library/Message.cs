@@ -78,12 +78,6 @@ namespace chat
             {
                 return (Message)formatter.Deserialize(ns);
             }
-            catch (SerializationException e)
-            {
-                Console.WriteLine("Failed to deserialize. Reason: " + e.Message);
-                Console.WriteLine("Erreur ci-dessus causée par déco du client = coupure du NetworkStream dans Deserialize du serv. A gérer plus proprement.");
-                throw;
-            }
             finally
             {
                 ns.Close();

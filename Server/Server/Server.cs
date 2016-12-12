@@ -27,8 +27,8 @@ namespace chat
                 s.Listen(1);
 
                 new Room("Welcome_room");    //Welcome room
-                new Room("Room_1");
-                new Room("Finish !");
+                //new Room("Room_1");
+                //new Room("Finish !");
 
                 Thread thread = new Thread(Broadcast);    //Thread qui gere la diffusion des messages
                 thread.Start();

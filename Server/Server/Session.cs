@@ -106,7 +106,6 @@ namespace chat
                             Message msg = new Message(new List<string>() { message.Content[0], "add" }, null, 0);   //Message d'upload des rooms
                             Server.queue.Enqueue(msg);                                                              //mis en queue pour broadcast
                         }
-                        //Suppression de la room ici
                     }
                     else    //Message classique dans une Room
                     {
@@ -148,8 +147,11 @@ namespace chat
 
         private void removeAllRooms()
         {
-            for (int i = 0; i < this.rooms.Count; i++)
-                removeRoom(this.rooms[i]);  //Ne pas mettre de foreach
+            Console.WriteLine("     Client " + this.id + " was subscribed in " + this.rooms.Count + " rooms.");
+            for (int i = this.rooms.Count - 1; i >= 0; i--)     //Itération inversée (Sinon décalage des index lors des supressions)
+            {
+                removeRoom(this.rooms[i]);
+            }
         }
 
         private void removeRoom(Room r)

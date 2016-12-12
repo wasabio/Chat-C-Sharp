@@ -17,7 +17,7 @@ namespace chat
         private int previousIndex = 0;
 
         delegate void SetTextCallback(object sender, Message m);
-        delegate void SetTextCallbac(String nom);
+        delegate void SetTextCall(String nom);
 
         public Form1(Client c)
         {
@@ -94,8 +94,6 @@ namespace chat
                     Client.rooms[index].subscribe = true;   //On active la room chez le client
                 }
 
-
-
                 texte.Focus();
 
                 lock (discussion)
@@ -126,13 +124,24 @@ namespace chat
         {
             if (this.listBox1.InvokeRequired)
             {
-                SetTextCallbac d = new SetTextCallbac(addRoomToList);  //Thread safe : ajout room à listbox
+                SetTextCall d = new SetTextCall(addRoomToList);  //Thread safe : ajout room à listbox
                 this.Invoke(d, new object[] { room });
             }
             else
             {
                 Client.rooms.Add(new Room_client(room));
                 listBox1.Items.Add(room);
+            }
+        }
+
+        public void deleteRoomFromList(string room)
+        {
+            for (int n = listBox1.Items.Count - 1; n >= 0; --n)     //Boucle inverse (sinon problème avec les index)
+            {
+                if (listBox1.Items[n].ToString().Equals(room))
+                {
+                    listBox1.Items.RemoveAt(n);
+                }
             }
         }
 
