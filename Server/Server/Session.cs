@@ -88,7 +88,15 @@ namespace chat
                     message = Message.Deserialize(s);
                     message.Sender = this.id;       //On sécurise l'ID de l'émetteur, pas d'usurpation d'ID possible
 
-                    if (message.Room == null)   //Message a destination du serveur : creation/subscribe a une room
+                    if (message.Room == null && message.Content[0] == "signup")     //Register a new user
+                    {
+
+                    }
+                    else if (message.Room == null && message.Content[0] == "signin")    //Login an existing user
+                    {
+
+                    }
+                    else if (message.Room == null)   //Message a destination du serveur : creation/subscribe a une room
                     {
                         bool trouve = false;
                         for (int i = 0; i < Room.rooms.Count; i++)   //On cherche si la room existe dans la liste de rooms (via son nom)
