@@ -15,6 +15,7 @@ namespace chat
         public static int id = -1;
         public Socket sock;
         Form1 f;
+        Form2 f2;
         public bool connected;
 
         public Thread thread;
@@ -78,8 +79,17 @@ namespace chat
 
                     if (id == -1)
                     {
-                        id = serverMessage.Sender;    //Initie l'id du client
-                        f.setRoomList(serverMessage.Content);   //On liste les rooms disponibles
+                        if(serverMessage.Content[0].Equals("false"))   //Mauvais identifiants
+                            f2.errorMessage();
+
+                        else    //Le client a été connecté, il reçoit la liste des rooms et son id
+                        {
+                            f2.Hide();                                  //Passage de f2 à f
+                            f.Closed += (s, args) => f2.Close();
+                            f.Show();
+                            id = serverMessage.Sender;    //Initie l'id du client
+                            f.setRoomList(serverMessage.Content);   //On liste les rooms disponibles
+                        }
                     }
                     else if (serverMessage.Sender == 0)
                     {
@@ -104,7 +114,7 @@ namespace chat
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 MessageBox.Show("Disconnected from server");
             }
@@ -114,10 +124,11 @@ namespace chat
             }
         }
 
-        public void bind(Form1 f)
+        public void bind(Form1 f, Form2 f2)
         {
             receivedEvent += new ReceivedHandler(f.Afficher);
             this.f = f;
+            this.f2 = f2;
         }
         
         protected virtual void raiseReceivedEvent()

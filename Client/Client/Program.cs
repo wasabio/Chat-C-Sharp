@@ -24,7 +24,7 @@ namespace chat
                 Form1 f = new Form1(c);
 
 
-                c.bind(f);      //Permet au client d'acceder aux methodes de notre Form1
+                c.bind(f, f2);      //Permet au client d'acceder aux methodes de notre Form1 et Form2
 
                 c.thread.Start();   //Lance le thread qui va ecouter le serveur, et print les messages dans Form1
 

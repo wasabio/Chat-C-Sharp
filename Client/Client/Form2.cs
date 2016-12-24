@@ -13,6 +13,7 @@ namespace chat
     partial class Form2 : Form
     {
         private Client c;
+        delegate void SetTextCall();
 
         public Form2(Client c)
         {
@@ -20,6 +21,7 @@ namespace chat
             label3.Hide();
             textPwd2.Hide();
             register.Hide();
+            login.Hide();
             this.c = c;
         }
 
@@ -52,6 +54,19 @@ namespace chat
             {
                 Message message = new Message(new List<string>() { "signin", textUser.Text, textPwd.Text }, null, Client.id);
                 c.send(message);
+            }
+        }
+
+        public void errorMessage()
+        {
+            if (this.login.InvokeRequired)
+            {
+                SetTextCall d = new SetTextCall(errorMessage);  //Thread safe : ajout room à listbox
+                this.Invoke(d);
+            }
+            else
+            {
+                login.Show();
             }
         }
     }
