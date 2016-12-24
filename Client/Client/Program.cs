@@ -13,10 +13,14 @@ namespace chat
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            
+            
+
             Client c = new Client();
 
             if (c.connected == true)
             {
+                Form2 f2 = new Form2(c);
                 Form1 f = new Form1(c);
 
 
@@ -24,7 +28,7 @@ namespace chat
 
                 c.thread.Start();   //Lance le thread qui va ecouter le serveur, et print les messages dans Form1
 
-                Application.Run(f);
+                Application.Run(f2);
 
                 c.sock.Shutdown(SocketShutdown.Both);
                 c.sock.Close();

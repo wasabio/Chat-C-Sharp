@@ -12,6 +12,7 @@ namespace chat
         private List<string> content;
         private string room;
         private int sender;
+        private string senderName;
 
         public Message(List<string> content, string room, int sender)
         {
