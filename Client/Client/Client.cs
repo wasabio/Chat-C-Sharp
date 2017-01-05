@@ -77,7 +77,7 @@ namespace chat
                 {
                     serverMessage = Message.Deserialize(sock);
 
-                    if (id == -1)
+                    if (id == -1)       //Le serveur n'a pas encore attribué d'ID au client
                     {
                         if(serverMessage.Content[0].Equals("false"))   //Mauvais identifiants
                             f2.errorMessage();

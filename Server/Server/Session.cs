@@ -90,11 +90,17 @@ namespace chat
 
                     if (message.Room == null && message.Content[0] == "signup")     //Register a new user
                     {
+                        bool status = Auth.register(message.Sender, message.Content[1], message.Content[2]);
 
+                        if (status) send(new Message(new List<string>() { "signup", "true" }, "Welcome_room", id));
+                        else send(new Message(new List<string>() { "signup", "false" }, "Welcome_room", id));
                     }
                     else if (message.Room == null && message.Content[0] == "signin")    //Login an existing user
                     {
+                        bool status = Auth.login(message.Content[1], message.Content[2]);
 
+                        if (status) send(new Message(new List<string>() { "signup", "true" }, "Welcome_room", id));
+                        else send(new Message(new List<string>() { "signup", "false" }, "Welcome_room", id));
                     }
                     else if (message.Room == null)   //Message a destination du serveur : creation/subscribe a une room
                     {

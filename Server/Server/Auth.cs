@@ -15,7 +15,6 @@ namespace chat
 
         public Auth()
         {
-
             if(File.Exists("Users.db"))
             {
                 co = new SQLiteConnection("Data Source=Users.db;Version=3;");
@@ -30,7 +29,7 @@ namespace chat
         }
 
         //Register a user, returns true if registration was successful
-        bool register(int id, string username, string password)
+        public static bool register(int id, string username, string password)
         {
             string sql = "insert into users (id, username, password) values ( " + id + ", '" + username + "', '" + password + "')";
             int count = executeQuery(sql);
@@ -47,7 +46,7 @@ namespace chat
         }
 
         //Verify in DB if a user exists with this password
-        bool login(string username, string password)
+        public static bool login(string username, string password)
         {
             string sql = "select id from users where username = '" + username + "' and password='" + password + "'";
             int count = searchQuery(sql);
@@ -63,7 +62,7 @@ namespace chat
         }
 
         //Used to make INSERT, UPDATE and DELETE query in DB
-        private int executeQuery(string sql)
+        private static int executeQuery(string sql)
         {
             try
             {
@@ -85,7 +84,7 @@ namespace chat
         }
 
         //Make a search query in DB
-        private int searchQuery(string sql)
+        private static int searchQuery(string sql)
         {
             try
             {
