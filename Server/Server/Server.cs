@@ -26,7 +26,7 @@ namespace chat
                 s.Bind(iep);
                 s.Listen(1);
 
-                Auth test = new Auth();     //Init database connection : Check if the local database file .db exists
+                new Auth();     //Init database connection : Check if the local database file .db exists
                 new Room("Welcome_room");    //Welcome room
                 //new Room("Room_1");
                 //new Room("Finish !");

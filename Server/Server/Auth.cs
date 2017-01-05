@@ -18,6 +18,7 @@ namespace chat
             if(File.Exists("Users.db"))
             {
                 co = new SQLiteConnection("Data Source=Users.db;Version=3;");
+                Console.WriteLine("Connecting to the existing database.");
             }
             else
             {
@@ -25,6 +26,7 @@ namespace chat
                 co = new SQLiteConnection("Data Source=Users.db;Version=3;");
                 string sql = "create table users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)";
                 executeQuery(sql);
+                Console.WriteLine("Database not found, creating a new one.");
             }
         }
 
