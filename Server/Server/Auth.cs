@@ -34,8 +34,11 @@ namespace chat
         public static bool register(int id, string username, string password)
         {
             string sql = "insert into users (id, username, password) values ( " + id + ", '" + username + "', '" + password + "')";
-            int count = executeQuery(sql);
 
+            if (userNameExists(username) == true) return false;
+
+            int count = executeQuery(sql);
+            
             if (count == 1)
             {
                 return true;
@@ -113,6 +116,21 @@ namespace chat
                 Auth.co.Close();
             }
         }
-    }
 
+        public static int userNameToId(string userName)
+        {
+            return searchQuery("select id from users where username = '" + userName + "'");
+        }
+
+        public static bool userNameExists(string userName)
+        {
+            if (searchQuery("select id from users where username = '" + userName + "'") == 0) return true;
+            else return false;
+        }
+
+        public static int generateId()  //Id max +1
+        {
+            return (searchQuery("select max(id) from users")+1);
+        }
+    }
 }
