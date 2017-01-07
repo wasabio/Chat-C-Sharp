@@ -48,9 +48,9 @@ namespace chat
                         roomList.Add(r.name);
                 }
 
-                send(new Message(roomList, "Welcome_room", id));     //Lorsque c'est un message du serveur, le serveur prend l'id du client
+                send(new Message(roomList, "Welcome_room", 0));     //Lorsque c'est un message du serveur, le serveur prend l'id du client
                                                         //On envoie la liste des topics
-                send(new Message(new List<string>() { "Welcome in " + Room.rooms[0].name + ", your client ID is: " + id }, "Welcome_room", id));
+                send(new Message(new List<string>() { "Welcome in " + Room.rooms[0].name + ", your client ID is: " + id }, "Welcome_room", 0));
             }
             catch (SocketException se)
             {
@@ -92,14 +92,20 @@ namespace chat
                     {
                         bool status = Auth.register(message.Sender, message.Content[1], message.Content[2]);
 
-                        if (status) send(new Message(new List<string>() { "signup", "true" }, "Welcome_room", id));
-                        else send(new Message(new List<string>() { "signup", "false" }, "Welcome_room", id));
+                        if (status)
+                        {
+                            send(new Message(new List<string>() { "signup", "true" }, "Welcome_room", id));
+                        }
+                        else
+                        {
+                            send(new Message(new List<string>() { "signup", "false" }, "Welcome_room", id));
+                        }
                     }
                     else if (message.Room == null && message.Content[0] == "signin")    //Login an existing user
                     {
                         bool status = Auth.login(message.Content[1], message.Content[2]);
 
-                        if (status) send(new Message(new List<string>() { "signup", "true" }, "Welcome_room", id));
+                        if (status) send(new Message(new List<string>() { "signin", "true" }, "Welcome_room", id));
                         else send(new Message(new List<string>() { "signin", "false" }, "Welcome_room", id));
                     }
                     else if (message.Room == null)   //Message a destination du serveur : creation/subscribe a une room
