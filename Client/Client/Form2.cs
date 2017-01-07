@@ -22,11 +22,13 @@ namespace chat
             textPwd2.Hide();
             register.Hide();
             login.Hide();
+            back.Hide();
             this.c = c;
         }
 
         private void signup_Click(object sender, EventArgs e)
         {
+            back.Show();
             signin.Hide();
             signup.Hide();
             label3.Show();
@@ -68,6 +70,16 @@ namespace chat
             {
                 login.Show();
             }
+        }
+
+        private void back_Click(object sender, EventArgs e)
+        {
+            back.Hide();
+            signin.Show();
+            signup.Show();
+            label3.Hide();
+            textPwd2.Hide();
+            register.Hide();
         }
     }
 }

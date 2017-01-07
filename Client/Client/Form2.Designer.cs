@@ -38,6 +38,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.register = new System.Windows.Forms.Button();
             this.login = new System.Windows.Forms.Label();
+            this.back = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textUser
@@ -132,12 +133,23 @@
             this.login.TabIndex = 9;
             this.login.Text = "Login failed";
             // 
+            // back
+            // 
+            this.back.Location = new System.Drawing.Point(29, 31);
+            this.back.Name = "back";
+            this.back.Size = new System.Drawing.Size(63, 23);
+            this.back.TabIndex = 10;
+            this.back.Text = "Back";
+            this.back.UseVisualStyleBackColor = true;
+            this.back.Click += new System.EventHandler(this.back_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(1)))), ((int)(((byte)(28)))), ((int)(((byte)(38)))));
             this.ClientSize = new System.Drawing.Size(590, 365);
+            this.Controls.Add(this.back);
             this.Controls.Add(this.login);
             this.Controls.Add(this.register);
             this.Controls.Add(this.label3);
@@ -167,5 +179,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button register;
         private System.Windows.Forms.Label login;
+        private System.Windows.Forms.Button back;
     }
 }

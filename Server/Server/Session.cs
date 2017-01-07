@@ -100,7 +100,7 @@ namespace chat
                         bool status = Auth.login(message.Content[1], message.Content[2]);
 
                         if (status) send(new Message(new List<string>() { "signup", "true" }, "Welcome_room", id));
-                        else send(new Message(new List<string>() { "signup", "false" }, "Welcome_room", id));
+                        else send(new Message(new List<string>() { "signin", "false" }, "Welcome_room", id));
                     }
                     else if (message.Room == null)   //Message a destination du serveur : creation/subscribe a une room
                     {

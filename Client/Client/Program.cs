@@ -14,8 +14,6 @@ namespace chat
             Application.SetCompatibleTextRenderingDefault(false);
 
             
-            
-
             Client c = new Client();
 
             if (c.connected == true)
@@ -29,6 +27,7 @@ namespace chat
                 c.thread.Start();   //Lance le thread qui va ecouter le serveur, et print les messages dans Form1
 
                 Application.Run(f2);
+
 
                 c.sock.Shutdown(SocketShutdown.Both);
                 c.sock.Close();
