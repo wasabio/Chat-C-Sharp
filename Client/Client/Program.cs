@@ -27,6 +27,7 @@ namespace chat
                 c.thread.Start();   //Lance le thread qui va ecouter le serveur, et print les messages dans Form1
 
                 Application.Run(f2);
+                Application.Run(f);
 
 
                 c.sock.Shutdown(SocketShutdown.Both);
