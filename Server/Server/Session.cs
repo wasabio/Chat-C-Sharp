@@ -36,21 +36,8 @@ namespace chat
 
             try
             {
-                sessions.Add(this);
-                linkToRoom(Room.rooms[0]);
                 Thread thread = new Thread(receive);
                 thread.Start();
-
-                List<string> roomList = new List<string>();     //Envoie la liste de rooms, sous forme de liste de string
-                lock (Room.rooms)
-                {
-                    foreach (Room r in Room.rooms)
-                        roomList.Add(r.name);
-                }
-
-                send(new Message(roomList, "Welcome_room", 0));     //Lorsque c'est un message du serveur, le serveur prend l'id 0
-                                                        //On envoie la liste des topics
-                send(new Message(new List<string>() { "Welcome in " + Room.rooms[0].name + ", your client ID is: " + id }, "Welcome_room", 0));
             }
             catch (SocketException se)
             {
@@ -94,7 +81,8 @@ namespace chat
 
                         if (status)
                         {
-                            send(new Message(new List<string>() { "signup", "true" }, "Welcome_room", id));
+                            this.id = Auth.userNameToId(message.Content[1]);
+                            init();
                         }
                         else
                         {
@@ -105,8 +93,15 @@ namespace chat
                     {
                         bool status = Auth.login(message.Content[1], message.Content[2]);
 
-                        if (status) send(new Message(new List<string>() { "signin", "true" }, "Welcome_room", id));
-                        else send(new Message(new List<string>() { "signin", "false" }, "Welcome_room", id));
+                        if (status)
+                        {
+                            this.id = Auth.userNameToId(message.Content[1]);
+                            init();
+                        }
+                        else
+                        {
+                            send(new Message(new List<string>() { "signin", "false" }, "Welcome_room", id));
+                        }
                     }
                     else if (message.Room == null)   //Message a destination du serveur : creation/subscribe a une room
                     {
@@ -178,6 +173,23 @@ namespace chat
         {
             r.Remove(this);
             this.rooms.Remove(r);   //On appelle la methode de la room qui va enlever cette session de sa liste et verifier si on doit supprimer la room
+        }
+
+        private void init()
+        {
+            sessions.Add(this);
+            linkToRoom(Room.rooms[0]);
+
+            List<string> roomList = new List<string>();     //Envoie la liste de rooms, sous forme de liste de string
+            lock (Room.rooms)
+            {
+                foreach (Room r in Room.rooms)
+                    roomList.Add(r.name);
+            }
+
+            send(new Message(roomList, "Welcome_room", id));     //Lorsque c'est un message du serveur, le serveur prend l'id 0
+                                                                 //On envoie la liste des topics
+            send(new Message(new List<string>() { "Welcome in " + Room.rooms[0].name + ", your client ID is: " + id }, "Welcome_room", 0));
         }
     }
 }
