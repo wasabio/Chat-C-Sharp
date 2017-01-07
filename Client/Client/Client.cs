@@ -84,9 +84,9 @@ namespace chat
 
                         else    //Le client a été connecté, il reçoit la liste des rooms et son id
                         {
-                            f2.Hide();                                  //Passage de f2 à f
+                            f2.Close();                                  //Passage de f2 à f
                             f.Closed += (s, args) => f2.Close();
-                            f.Show();
+                            //f.Show();
                             id = serverMessage.Sender;    //Initie l'id du client
                             f.setRoomList(serverMessage.Content);   //On liste les rooms disponibles
                         }
