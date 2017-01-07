@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,8 +15,9 @@ namespace chat
     {
         private Client c;
         delegate void SetTextCall();
+        Form1 f;
 
-        public Form2(Client c)
+        public Form2(Client c, Form1 f)
         {
             InitializeComponent();
             label3.Hide();
@@ -24,6 +26,9 @@ namespace chat
             login.Hide();
             back.Hide();
             this.c = c;
+            this.f = f;
+            //this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
+            //f.Show();
         }
 
         private void signup_Click(object sender, EventArgs e)
@@ -80,6 +85,33 @@ namespace chat
             label3.Hide();
             textPwd2.Hide();
             register.Hide();
+        }
+
+        private const int CP_NOCLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams myCp = base.CreateParams;
+                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+                return myCp;
+            }
+        }
+
+        private void Form2_FormClosing(Object sender, FormClosingEventArgs e)
+        {
+            //Application.Exit();
+            //Application.Run(f);
+            //f.Show();
+            //Thread thread = new Thread(f.Show);
+            //thread.Start();
+            //while (true) { };
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            Form1 form1 = new Form1(null);
+            form1.Show();
         }
     }
 }
