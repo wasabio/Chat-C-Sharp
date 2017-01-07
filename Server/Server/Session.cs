@@ -48,9 +48,9 @@ namespace chat
                         roomList.Add(r.name);
                 }
 
-                send(new Message(roomList, "Welcome_room", id));     //Lorsque c'est un message du serveur, le serveur prend l'id du client
+                send(new Message(roomList, "Welcome_room", 0));     //Lorsque c'est un message du serveur, le serveur prend l'id 0
                                                         //On envoie la liste des topics
-                send(new Message(new List<string>() { "Welcome in " + Room.rooms[0].name + ", your client ID is: " + id }, "Welcome_room", id));
+                send(new Message(new List<string>() { "Welcome in " + Room.rooms[0].name + ", your client ID is: " + id }, "Welcome_room", 0));
             }
             catch (SocketException se)
             {
