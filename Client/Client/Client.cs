@@ -93,8 +93,6 @@ namespace chat
 
                             id = serverMessage.Sender;    //Initie l'id du client
                             f.setRoomList(serverMessage.Content);   //On liste les rooms disponibles
-                            while (true) ;
-                            //MessageBox.Show("Yayaya");
                         }
                     }
                     else if (serverMessage.Sender == 0)
