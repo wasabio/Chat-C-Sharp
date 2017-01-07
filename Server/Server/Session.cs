@@ -78,7 +78,7 @@ namespace chat
                     if (message.Room == null && message.Content[0] == "signup")     //Register a new user
                     {
                         bool status = Auth.register(message.Sender, message.Content[1], message.Content[2]);
-
+                        Console.WriteLine("Someone is trying to register");
                         if (status)
                         {
                             this.id = Auth.userNameToId(message.Content[1]);
@@ -92,7 +92,7 @@ namespace chat
                     else if (message.Room == null && message.Content[0] == "signin")    //Login an existing user
                     {
                         bool status = Auth.login(message.Content[1], message.Content[2]);
-
+                        Console.WriteLine("Someone is trying to login");
                         if (status)
                         {
                             this.id = Auth.userNameToId(message.Content[1]);

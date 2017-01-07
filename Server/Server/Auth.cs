@@ -24,7 +24,7 @@ namespace chat
             {
                 SQLiteConnection.CreateFile("Users.db");
                 co = new SQLiteConnection("Data Source=Users.db;Version=3;");
-                string sql = "create table users (id INTEGER PRIMARY KEY, username TEXT, password TEXT)";
+                string sql = "CREATE TABLE users (id INT PRIMARY KEY NOT NULL, username VARCHAR(30), password VARCHAR(30))";
                 executeQuery(sql);
                 Console.WriteLine("Database not found, creating a new one.");
             }
@@ -33,9 +33,9 @@ namespace chat
         //Register a user, returns true if registration was successful
         public static bool register(int id, string username, string password)
         {
-            string sql = "insert into users (id, username, password) values ( " + id + ", '" + username + "', '" + password + "')";
-
-            if (userNameExists(username) == true) return false;
+            string sql = "INSERT INTO users (id, username, password) VALUES ( " + id + ", '" + username + "', '" + password + "')";
+            
+            //if (userNameExists(username) == true) return false;
 
             int count = executeQuery(sql);
             
@@ -72,8 +72,9 @@ namespace chat
             try
             {
                 Auth.co.Open();
-                SQLiteCommand command = new SQLiteCommand(sql, co);
+                SQLiteCommand command = new SQLiteCommand(sql, Auth.co);
                 int count = command.ExecuteNonQuery();
+                Console.WriteLine("Success : " + count);
                 return count;
             }
             catch
