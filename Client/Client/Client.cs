@@ -24,8 +24,11 @@ namespace chat
         public delegate void ReceivedHandler(Client c, Message m);
         public event ReceivedHandler receivedEvent;
 
+        public delegate void FormHandler(Client c, EventArgs e);
+        public event FormHandler formEvent;
+
         public static List<Room_client> rooms = new List<Room_client>();
-        
+
         public Client()
         {
             try
@@ -49,7 +52,7 @@ namespace chat
                 connected = false;
             }
         }
-        
+
         public void send(Message message)
         {
             try
@@ -79,21 +82,22 @@ namespace chat
 
                     if (id == -1)       //Le serveur n'a pas encore attribué d'ID au client
                     {
-                        if(serverMessage.Content[0].Equals("false"))   //Mauvais identifiants
+                        if (serverMessage.Content[0].Equals("false"))   //Mauvais identifiants
                             f2.errorMessage();
 
                         else    //Le client a été connecté, il reçoit la liste des rooms et son id
                         {
-                            f2.Hide();                                  //Passage de f2 à f
-                            f.Closed += (s, args) => f2.Close();
-                            f.Show();
+                            //Passage de f2 à f
+                            formEvent += new FormHandler(f2.NextForm);
+                            raiseFormEvent();
+
                             id = serverMessage.Sender;    //Initie l'id du client
                             f.setRoomList(serverMessage.Content);   //On liste les rooms disponibles
                         }
                     }
                     else if (serverMessage.Sender == 0)
                     {
-                        if(serverMessage.Content.Count == 1)    //Content 0 : Message serveur
+                        if (serverMessage.Content.Count == 1)    //Content 0 : Message serveur
                         {
                             serverMessage.Content[0] = "[SERVER] " + serverMessage.Content[0];  //Message du server
                             raiseReceivedEvent();   //Permet d'afficher un message dans la form
@@ -130,12 +134,20 @@ namespace chat
             this.f = f;
             this.f2 = f2;
         }
-        
+
         protected virtual void raiseReceivedEvent()
         {
             if (receivedEvent != null)  //Check for subscribers
             {
                 receivedEvent(this, serverMessage);
+            }
+        }
+
+        protected virtual void raiseFormEvent()
+        {
+            if (formEvent != null)  //Check for subscribers
+            {
+                formEvent(this, null);
             }
         }
     }
