@@ -55,7 +55,6 @@ namespace chat
         {
             string sql = "select id from users where username = '" + username + "' and password='" + password + "'";
             int count = searchQuery(sql);
-
             if (count != 0)
             {
                 return true;
@@ -106,9 +105,9 @@ namespace chat
                     return 0;
                 }
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("Error accessing database.");
+                Console.WriteLine(e.ToString());//"Error accessing database.");
                 return 0;
                 throw;
             }

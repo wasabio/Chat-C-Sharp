@@ -86,7 +86,7 @@ namespace chat
                         }
                         else
                         {
-                            send(new Message(new List<string>() { "signup", "false" }, "Welcome_room", id));
+                            send(new Message(new List<string>() {"false"}, "Welcome_room", id));
                         }
                     }
                     else if (message.Room == null && message.Content[0] == "signin")    //Login an existing user
@@ -100,7 +100,7 @@ namespace chat
                         }
                         else
                         {
-                            send(new Message(new List<string>() { "signin", "false" }, "Welcome_room", id));
+                            send(new Message(new List<string>() {"false"}, "Welcome_room", id));
                         }
                     }
                     else if (message.Room == null)   //Message a destination du serveur : creation/subscribe a une room

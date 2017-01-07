@@ -18,8 +18,8 @@ namespace chat
 
             if (c.connected == true)
             {
-                Form2 f2 = new Form2(c);
                 Form1 f = new Form1(c);
+                Form2 f2 = new Form2(c, f);
 
 
                 c.bind(f, f2);      //Permet au client d'acceder aux methodes de notre Form1 et Form2

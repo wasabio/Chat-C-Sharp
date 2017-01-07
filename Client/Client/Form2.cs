@@ -13,9 +13,12 @@ namespace chat
     partial class Form2 : Form
     {
         private Client c;
+        private Form1 f;
         delegate void SetTextCall();
+        delegate void SetTextCallback(object sender, EventArgs e);
 
-        public Form2(Client c)
+
+        public Form2(Client c, Form1 f)
         {
             InitializeComponent();
             label3.Hide();
@@ -24,6 +27,7 @@ namespace chat
             login.Hide();
             back.Hide();
             this.c = c;
+            this.f = f;
         }
 
         private void signup_Click(object sender, EventArgs e)
@@ -41,11 +45,13 @@ namespace chat
         private void register_Click(object sender, EventArgs e)
         {
             if (!textUser.Text.Equals("") && !textPwd.Text.Equals("") && !textPwd2.Text.Equals("")) //Champs non vides
-                if(textPwd.Text.Equals(textPwd2))       //Mdp = Confirmation Mdp
+            {
+                if (textPwd.Text.Equals(textPwd2.Text))       //Mdp = Confirmation Mdp
                 {
                     Message message = new Message(new List<string>() { "signup", textUser.Text, textPwd.Text }, null, Client.id);
                     c.send(message);
                 }
+            }
         }
 
 
@@ -81,5 +87,21 @@ namespace chat
             textPwd2.Hide();
             register.Hide();
         }
+
+
+        public void NextForm(object sender, EventArgs e)
+        {
+            if (this.InvokeRequired)
+            {
+                SetTextCallback d = new SetTextCallback(NextForm);  //Thread safe : ajout texte à textbox
+                this.Invoke(d, new object[] { this, null });
+            }
+            else
+            {
+                f.Show();
+                this.Hide();
+            }
+        }
+
     }
 }

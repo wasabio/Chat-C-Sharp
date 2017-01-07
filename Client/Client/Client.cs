@@ -24,6 +24,9 @@ namespace chat
         public delegate void ReceivedHandler(Client c, Message m);
         public event ReceivedHandler receivedEvent;
 
+        public delegate void FormHandler(Client c, EventArgs e);
+        public event FormHandler formEvent;
+
         public static List<Room_client> rooms = new List<Room_client>();
         
         public Client()
@@ -84,11 +87,14 @@ namespace chat
 
                         else    //Le client a été connecté, il reçoit la liste des rooms et son id
                         {
-                            f2.Hide();                                  //Passage de f2 à f
-                            f.Closed += (s, args) => f2.Close();
-                            f.Show();
+                            //Passage de f2 à f
+                            formEvent += new FormHandler(f2.NextForm);
+                            raiseFormEvent();
+
                             id = serverMessage.Sender;    //Initie l'id du client
                             f.setRoomList(serverMessage.Content);   //On liste les rooms disponibles
+                            while (true) ;
+                            //MessageBox.Show("Yayaya");
                         }
                     }
                     else if (serverMessage.Sender == 0)
@@ -136,6 +142,14 @@ namespace chat
             if (receivedEvent != null)  //Check for subscribers
             {
                 receivedEvent(this, serverMessage);
+            }
+        }
+
+        protected virtual void raiseFormEvent()
+        {
+            if (formEvent != null)  //Check for subscribers
+            {
+                formEvent(this, null);
             }
         }
     }
