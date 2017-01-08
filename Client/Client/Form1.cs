@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
@@ -24,6 +19,7 @@ namespace chat
             InitializeComponent();
             AcceptButton = button1;
             this.c = c;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
         }
 
         private void button1_Click_1(object sender, EventArgs e)        //Envoie de message
@@ -163,6 +159,12 @@ namespace chat
                 c.send(message);
                 textBox1.Clear();
             }
+        }
+
+
+        private void Form1_FormClosing(Object sender, FormClosingEventArgs e)   //Exit the Form thread
+        {
+            Application.ExitThread();
         }
     }
 }
