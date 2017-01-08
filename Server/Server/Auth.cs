@@ -24,16 +24,16 @@ namespace chat
             {
                 SQLiteConnection.CreateFile("Users.db");
                 co = new SQLiteConnection("Data Source=Users.db;Version=3;");
-                string sql = "CREATE TABLE users (id INT PRIMARY KEY NOT NULL, username VARCHAR(30), password VARCHAR(30))";
+                string sql = "CREATE TABLE users (id INTEGER PRIMARY KEY, username VARCHAR(30), password VARCHAR(30))";
                 executeQuery(sql);
                 Console.WriteLine("Database not found, creating a new one.");
             }
         }
 
         //Register a user, returns true if registration was successful
-        public static bool register(int id, string username, string password)
+        public static bool register(string username, string password)
         {
-            string sql = "INSERT INTO users (id, username, password) VALUES ( " + id + ", '" + username + "', '" + password + "')";
+            string sql = "INSERT INTO users (username, password) VALUES ('" + username + "', '" + password + "')";
             
             //if (userNameExists(username) == true) return false;
 
@@ -54,7 +54,7 @@ namespace chat
         public static bool login(string username, string password)
         {
             string sql = "select id from users where username = '" + username + "' and password='" + password + "'";
-            int count = searchQuery(sql);
+            long count = searchQuery(sql);
             if (count != 0)
             {
                 return true;
@@ -73,7 +73,6 @@ namespace chat
                 Auth.co.Open();
                 SQLiteCommand command = new SQLiteCommand(sql, Auth.co);
                 int count = command.ExecuteNonQuery();
-                Console.WriteLine("Success : " + count);
                 return count;
             }
             catch
@@ -89,7 +88,7 @@ namespace chat
         }
 
         //Make a search query in DB
-        private static int searchQuery(string sql)
+        private static long searchQuery(string sql)
         {
             try
             {
@@ -98,7 +97,7 @@ namespace chat
                 var result = command.ExecuteScalar();
                 if (result != null)
                 {
-                    return (int)result;         //Returns corresponding ID for the given username
+                    return (long)result;         //Returns corresponding ID for the given username
                 }
                 else
                 {
@@ -117,7 +116,7 @@ namespace chat
             }
         }
 
-        public static int userNameToId(string userName)
+        public static long userNameToId(string userName)
         {
             return searchQuery("select id from users where username = '" + userName + "'");
         }
@@ -128,7 +127,7 @@ namespace chat
             else return false;
         }
 
-        public static int generateId()  //Id max +1
+        public static long generateId()  //Id max +1
         {
             return (searchQuery("select max(id) from users")+1);
         }

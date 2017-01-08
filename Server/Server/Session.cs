@@ -14,7 +14,8 @@ namespace chat
         public List<Room> rooms = new List<Room>(); //Une session peut être dans plusieurs rooms
 
         private Socket s;
-        private int id;
+        private int id = 0;
+        private String userName = "Unknow";
 
         public int Id
         {
@@ -29,9 +30,8 @@ namespace chat
             }
         }
 
-        public Session(int id, Socket s)
+        public Session(Socket s)
         {
-            this.id = id;
             this.s = s;
 
             try
@@ -77,12 +77,12 @@ namespace chat
 
                     if (message.Room == null && message.Content[0] == "signup")     //Register a new user
                     {
-                        bool status = Auth.register(message.Sender, message.Content[1], message.Content[2]);
-                        Console.WriteLine("Someone is trying to register");
+                        bool status = Auth.register(message.Content[1], message.Content[2]);
                         if (status)
                         {
-                            this.id = Auth.userNameToId(message.Content[1]);
+                            userName = message.Content[1];
                             init();
+                            Console.WriteLine(userName + " signed up.");
                         }
                         else
                         {
@@ -91,12 +91,12 @@ namespace chat
                     }
                     else if (message.Room == null && message.Content[0] == "signin")    //Login an existing user
                     {
-                        bool status = Auth.login(message.Content[1], message.Content[2]);
-                        Console.WriteLine("Someone is trying to login");
+                        bool status = Auth.login(userName, message.Content[2]);
                         if (status)
                         {
-                            this.id = Auth.userNameToId(message.Content[1]);
+                            userName = message.Content[1];
                             init();
+                            Console.WriteLine(message.Content[1] + " signed in.");
                         }
                         else
                         {
@@ -124,20 +124,21 @@ namespace chat
                     }
                     else    //Message classique dans une Room
                     {
-                        Console.WriteLine("[Client " + id + " says] " + message.Content[0] + "  TO " + message.Room);
+                        Console.WriteLine("[Client " + userName + " says] " + message.Content[0] + " To " + message.Room);
                         Server.queue.Enqueue(message);  //Ajout du message entrant a la liste, il sera transmis a la room par un thread serveur
                     }
                 }
             }
             catch (Exception)
             {
-                Console.WriteLine("[Client " + id + " disconnected]");
+                Console.WriteLine("[Client " + userName + " disconnected]");
                 disconnect();
             }
             finally
             {
                 sessions.Remove(this);
                 removeAllRooms();   //Supprime les rooms qui deviennent vides
+                Server.counter -= 1;
             }
         }
 
@@ -150,7 +151,7 @@ namespace chat
             }
             catch (SocketException)
             {
-                Console.WriteLine("Error while disconnecting Client ID: " + id);
+                Console.WriteLine("Error while disconnecting Client : " + userName);
             }
         }
 
@@ -162,7 +163,7 @@ namespace chat
 
         private void removeAllRooms()
         {
-            Console.WriteLine("     Client " + this.id + " was subscribed in " + this.rooms.Count + " rooms.");
+            Console.WriteLine("     Client " + userName + " was subscribed in " + this.rooms.Count + " rooms.");
             for (int i = this.rooms.Count - 1; i >= 0; i--)     //Itération inversée (Sinon décalage des index lors des supressions)
             {
                 removeRoom(this.rooms[i]);
@@ -177,6 +178,7 @@ namespace chat
 
         private void init()
         {
+            this.id = (int)Auth.userNameToId(userName);
             sessions.Add(this);
             linkToRoom(Room.rooms[0]);
 

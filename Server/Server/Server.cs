@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Runtime.Serialization;
 using System.Collections.Generic;
 using System.Threading;
 
@@ -11,10 +9,10 @@ namespace chat
     class Server
     {
         public static Queue<Message> queue = new Queue<Message>();
+        public static int counter = 0;
+
         public Server()
-        {
-            int counter = 0;
-          
+        {        
             try
             {
                 Socket s = new Socket(
@@ -28,8 +26,7 @@ namespace chat
 
                 new Auth();     //Init database connection : Check if the local database file .db exists
                 new Room("Welcome_room");    //Welcome room
-                //new Room("Room_1");
-                //new Room("Finish !");
+                new Room("Help");
 
                 Thread thread = new Thread(Broadcast);    //Thread qui gere la diffusion des messages
                 thread.Start();
@@ -39,9 +36,9 @@ namespace chat
                     Console.WriteLine("Waiting for clients...");
                     Socket socketClient = s.Accept();
                     counter += 1;
-                    Console.WriteLine("[Client " + counter + " connected]");
+                    Console.WriteLine("[" + counter + " clients connected]");
 
-                    Session client = new Session(counter, socketClient);
+                    Session client = new Session(socketClient);
                 }
             }
             catch (SocketException)
