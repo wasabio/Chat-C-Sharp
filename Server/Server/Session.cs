@@ -91,7 +91,7 @@ namespace chat
                     }
                     else if (message.Room == null && message.Content[0] == "signin")    //Login an existing user
                     {
-                        bool status = Auth.login(userName, message.Content[2]);
+                        bool status = Auth.login(message.Content[1], message.Content[2]);
                         if (status)
                         {
                             userName = message.Content[1];
